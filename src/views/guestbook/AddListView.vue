@@ -64,7 +64,7 @@
                             <td>{{ listVo.no }}</td>
                             <td>{{ listVo.name }}</td>
                             <td>{{ listVo.regDate }}</td>
-                            <td><router-link v-bind:to='`/gb/deleteform/`+listVo.no'>[삭제]</router-link></td>
+                            <td><router-link v-bind:to='`/gb/deleteform/${listVo.no}`'>[삭제]</router-link></td>
                         </tr>
                         <tr>
                             <td colspan=4 class="text-left">{{ listVo.content }}</td>

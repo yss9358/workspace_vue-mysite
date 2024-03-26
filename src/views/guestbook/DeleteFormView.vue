@@ -82,9 +82,6 @@ export default{
     },
     methods : {
         deleteOne(){
-            // console.log("delete");
-            // console.log(this.guestVo);
-            // console.log(this.$route.params);
             axios({
                 method: 'delete', // put, post, delete
                 url: 'http://localhost:9000/api/guests',
@@ -96,12 +93,11 @@ export default{
             }).then(response => {
                 // console.log(response);
                 if(response.data.result == "success"){
-                    console.log("삭제 성공");
                     this.guestVo.password = null;
                     this.$router.push('/gb/list');
                 } else {
-                    console.log("삭제 실패");
                     this.guestVo.password = null;
+                    alert(response.data.message);
                 }
 
             }).catch(error => {
