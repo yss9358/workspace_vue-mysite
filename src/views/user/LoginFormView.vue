@@ -3,7 +3,7 @@
 
     <div id="header" class="clearfix">
         <h1>
-            <a href="">MySite</a>
+            <router-link to='/'>Mysite</router-link>
         </h1>
 
         <!-- 
@@ -60,7 +60,6 @@
             <div id="user">
                 <div id="loginForm">
                     <form v-on:submit.prevent="login">
-
                         <!-- 아이디 -->
                         <div class="form-group">
                             <label class="form-text" for="input-uid">아이디</label> 
@@ -72,13 +71,11 @@
                             <label class="form-text" for="input-pass">비밀번호</label> 
                             <input type="password" id="input-pass" name="password" v-model="userVo.password" placeholder="비밀번호를 입력하세요"	>
                         </div>
-
                         
                         <!-- 버튼영역 -->
                         <div class="button-area">
                             <button type="submit" id="btn-submit">로그인</button>
                         </div>
-                        
                     </form>
                 </div>
                 <!-- //loginForm -->
@@ -86,7 +83,6 @@
             <!-- //user -->
         </div>
         <!-- //content  -->
-        
     </div>
     <!-- //container  -->
 
@@ -97,7 +93,6 @@
 
 </div>
 <!-- //wrap -->
-
 </template>
 
 <script>
@@ -105,7 +100,7 @@ import axios from 'axios'
 import "@/assets/css/user.css"
 
 export default{
-    name : "Ex00View",
+    name : "LoginFormView",
     components : {},
     data (){
         return {
@@ -126,14 +121,14 @@ export default{
                 // console.log(response.data); //수신데이타
                 // 로그인 사용자 정보
                 let authUser = response.data;
-                this.$store.commit("setAuthUser",response.data);// vuex에 저장
+                this.$store.commit("setAuthUser",authUser);// vuex에 저장
                 
                 // token은 응답문서의 헤더에 있음. "Authorization", "Bearer" + ""
                 const token = response.headers.authorization.split(" ")[1];
                 this.$store.commit("setToken", token);// vuex에 저장
 
-                console.log(authUser);
-                console.log(token);
+                // console.log(authUser);
+                // console.log(token);
                 
                 this.$router.push('/');
 

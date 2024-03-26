@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Ex00View from '../views/Ex00View.vue'
 import MainView from '@/views/main/MainView.vue' // @는 src폴더 의미
 import LoginFormView from '@/views/user/LoginFormView.vue'
+import ModifyFormView from '@/views/user/ModifyFormView.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path : '/user/loginform',
     name : 'loginform',
     component : LoginFormView
+  },
+  {
+    path : '/user/modifyform',  
+    name : 'modifyform',
+    component : ModifyFormView
   }
  
 ]

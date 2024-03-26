@@ -5,7 +5,7 @@
 <script>
 import "@/assets/css/mysite.css"
 
-export default{name: "App",}
+export default{name: "App"}
 </script>
 
 <style>
