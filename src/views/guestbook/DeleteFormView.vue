@@ -41,7 +41,7 @@
                         </colgroup>
                         <tr>
                             <td>비밀번호</td>
-                            <td><input type="password" name="password"></td>
+                            <td><input type="password" name="password" v-model="guestVo.password"></td>
                             <td class="text-left"><button type="submit">삭제</button></td>
                             <td><router-link to="/gb/list">[방명록으로 돌아가기]</router-link></td>
                         </tr>
@@ -64,6 +64,7 @@
 import '@/assets/css/guestbook.css'
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import axios from 'axios';
 
 export default{
     name : "DeleteFormView",
@@ -73,12 +74,41 @@ export default{
     },
     data (){
         return {
-
+            guestVo : {
+                password: "",
+                no : this.$route.params.no
+            }
         };
     },
     methods : {
         deleteOne(){
-            console.log("delete");
+            // console.log("delete");
+            // console.log(this.guestVo);
+            // console.log(this.$route.params);
+            axios({
+                method: 'delete', // put, post, delete
+                url: 'http://localhost:9000/api/guests',
+                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                // params: guestbookVo, //get방식 파라미터로 값이 전달 -> modelattribute
+                data: this.guestVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
+
+                responseType: 'json' //수신타입
+            }).then(response => {
+                // console.log(response);
+                if(response.data.result == "success"){
+                    console.log("삭제 성공");
+                    this.guestVo.password = null;
+                    this.$router.push('/gb/list');
+                } else {
+                    console.log("삭제 실패");
+                    this.guestVo.password = null;
+                }
+
+            }).catch(error => {
+                console.log(error);
+            });
+
+
         }
     },
     created (){
