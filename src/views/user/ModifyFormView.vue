@@ -1,43 +1,12 @@
 <template>
+
 <div id="wrap">
 
-<div id="header" class="clearfix">
-    <h1>
-        <router-link to='/'>Mysite</router-link>
-    </h1>
-
-    <ul v-if="this.$store.state.authUser != null">
-        <li>{{ this.$store.state.authUser.name }}님 안녕하세요^^</li>
-        <li><button v-on:click="logout" type="button" class="btn_s">로그아웃</button></li>
-        <li><router-link to="/user/modifyform" class="btn_s">회원정보수정</router-link></li>
-    </ul>
-    <ul v-if="this.$store.state.authUser == null">
-        <li><router-link to="/user/loginform" class="btn_s">로그인</router-link></li>
-        <li><a href="" class="btn_s">회원가입</a></li>
-    </ul>
-    
-</div>
-<!-- //header -->
-
-<div id="nav">
-    <ul class="clearfix">
-        <li><router-link to="/">입사지원서</router-link></li>
-        <li><a href="">게시판</a></li>
-        <li><a href="">갤러리</a></li>
-        <li><a href="">방명록</a></li>
-    </ul>
-</div>
-<!-- //nav -->
+<AppHeader/>
+<!-- header -->
 
 <div id="container" class="clearfix">
-    <div id="aside">
-        <h2>회원</h2>
-        <ul>
-            <li>회원정보</li>
-            <li>로그인</li>
-            <li>회원가입</li>
-        </ul>
-    </div>
+    <AppUserAside/>
     <!-- //aside -->
 
     <div id="content">
@@ -103,30 +72,35 @@
 </div>
 <!-- //container  -->
 
-<div id="footer">
-    Copyright ⓒ 2020 황일영. All right reserved
-</div>
-<!-- //footer -->
+<AppFooter/>
+<!-- footer -->
 
 </div>
 <!-- //wrap -->    
+
 </template>
 
 <script>
-import '@/assets/css/user.css'
+import '@/assets/css/user.css';
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import AppUserAside from '@/components/AppUserAside.vue'
 import axios from 'axios';
 
 export default{
     name : "ModifyFormView",
-    components : {},
+    components : {
+        AppHeader,
+        AppFooter,
+        AppUserAside
+    },
     data (){
         return {
-            userVo : {},
-            checked : ""
+            userVo : {}
         };
     },
     methods : {
-        modifyform(){ // 수정폼 - 한명 데이터 불러오기
+        getAuthUser(){ // 수정폼 - 한명 데이터 불러오기
             axios({
                 method: 'get', // put, post, delete
                 url: 'http://localhost:9000/api/users/modify',
@@ -139,14 +113,17 @@ export default{
                 responseType: 'json' //수신타입
             }).then(response => {
                 // console.log(response.data); //수신데이타
-                this.userVo = response.data;
+                if(response.data.result == "success"){
+                    this.userVo = response.data.apiData;
+                } else {
+                    alert(response.data.message);
+                }
             }).catch(error => {
                 console.log(error);
             });
-        },
+        }, // getAuthUser() 끝
+
         modifyUser(){ // 수정 
-            // console.log("modifyUser");
-            // console.log(this.userVo);
             axios({
                 method: 'put', // put, post, delete
                 url: 'http://localhost:9000/api/users/modify',
@@ -158,26 +135,27 @@ export default{
 
                 responseType: 'json' //수신타입
             }).then(response => {
-                // console.log(response.data); //수신데이타
-                if(response.data == 1){
+                // console.log(response);
+                if(response.data.result == "success"){ // 결과가 성공이면 vuex의 authUser의 name값을 바꿔준다.
                     this.$store.commit("setAuthUserName", this.userVo.name);
                     this.$router.push('/');
-                } else{
-                    this.$router.push('/user/modifyform');
+                } else{ // 결과가 실패면 vuex의 token,authUser 값 삭제, 로그인alert발동
+                    this.$store.commit("setAuthUser", null);
+                    this.$store.commit("setToken", null);
+                    alert("로그인 하세요.");
+                    this.$router.push('/user/loginform');
                 }
             }).catch(error => {
                 console.log(error);
             });
-
-        }
+        } // modifyUser()끝 
     },    
     created (){
         if(this.$store.state.authUser != null){
-            this.modifyform();
+            this.getAuthUser();
         } 
-       
     }    
-}   
+};   
 
 </script>
 

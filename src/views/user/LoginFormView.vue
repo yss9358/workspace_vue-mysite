@@ -1,107 +1,80 @@
 <template>
+
 <div id="wrap">
 
-    <div id="header" class="clearfix">
-        <h1>
-            <router-link to='/'>Mysite</router-link>
-        </h1>
+<AppHeader/>
+<!-- header -->
 
-        <!-- 
-        <ul>
-            <li>황일영 님 안녕하세요^^</li>
-            <li><a href="" class="btn_s">로그아웃</a></li>
-            <li><a href="" class="btn_s">회원정보수정</a></li>
-        </ul>
-        -->	
-        <ul>
-            <li><a href="" class="btn_s">로그인</a></li>
-            <li><a href="" class="btn_s">회원가입</a></li>
-        </ul>
-        
-    </div>
-    <!-- //header -->
+<div id="container" class="clearfix">
+    <AppUserAside/>
+    <!-- //aside -->
 
-    <div id="nav">
-        <ul class="clearfix">
-            <li><a href="">입사지원서</a></li>
-            <li><a href="">게시판</a></li>
-            <li><a href="">갤러리</a></li>
-            <li><a href="">방명록</a></li>
-        </ul>
-    </div>
-    <!-- //nav -->
-
-    <div id="container" class="clearfix">
-        <div id="aside">
-            <h2>회원</h2>
-            <ul>
-                <li>회원정보</li>
-                <li>로그인</li>
-                <li>회원가입</li>
-            </ul>
-        </div>
-        <!-- //aside -->
-
-        <div id="content">
-        
-            <div id="content-head">
-                <h3>로그인</h3>
-                <div id="location">
-                    <ul>
-                        <li>홈</li>
-                        <li>회원</li>
-                        <li class="last">로그인</li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
+    <div id="content">
+    
+        <div id="content-head">
+            <h3>로그인</h3>
+            <div id="location">
+                <ul>
+                    <li>홈</li>
+                    <li>회원</li>
+                    <li class="last">로그인</li>
+                </ul>
             </div>
-            <!-- //content-head -->
-
-            <div id="user">
-                <div id="loginForm">
-                    <form v-on:submit.prevent="login">
-                        <!-- 아이디 -->
-                        <div class="form-group">
-                            <label class="form-text" for="input-uid">아이디</label> 
-                            <input type="text" id="input-uid" name="id" v-model="userVo.id" placeholder="아이디를 입력하세요">
-                        </div>
-
-                        <!-- 비밀번호 -->
-                        <div class="form-group">
-                            <label class="form-text" for="input-pass">비밀번호</label> 
-                            <input type="password" id="input-pass" name="password" v-model="userVo.password" placeholder="비밀번호를 입력하세요"	>
-                        </div>
-                        
-                        <!-- 버튼영역 -->
-                        <div class="button-area">
-                            <button type="submit" id="btn-submit">로그인</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- //loginForm -->
-            </div>
-            <!-- //user -->
+            <div class="clear"></div>
         </div>
-        <!-- //content  -->
-    </div>
-    <!-- //container  -->
+        <!-- //content-head -->
 
-    <div id="footer">
-        Copyright ⓒ 2024 유승수. All right reserved
+        <div id="user">
+            <div id="loginForm">
+                <form v-on:submit.prevent="login">
+                    <!-- 아이디 -->
+                    <div class="form-group">
+                        <label class="form-text" for="input-uid">아이디</label> 
+                        <input type="text" id="input-uid" name="id" v-model="userVo.id" placeholder="아이디를 입력하세요">
+                    </div>
+
+                    <!-- 비밀번호 -->
+                    <div class="form-group">
+                        <label class="form-text" for="input-pass">비밀번호</label> 
+                        <input type="password" id="input-pass" name="password" v-model="userVo.password" placeholder="비밀번호를 입력하세요"	>
+                    </div>
+                    
+                    <!-- 버튼영역 -->
+                    <div class="button-area">
+                        <button type="submit" id="btn-submit">로그인</button>
+                    </div>
+                </form>
+            </div>
+            <!-- //loginForm -->
+        </div>
+        <!-- //user -->
     </div>
-    <!-- //footer -->
+    <!-- //content  -->
+</div>
+<!-- //container  -->
+
+<AppFooter/>
+<!-- footer -->
 
 </div>
 <!-- //wrap -->
+
 </template>
 
 <script>
+import '@/assets/css/user.css'
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import AppUserAside from '@/components/AppUserAside.vue'
 import axios from 'axios'
-import "@/assets/css/user.css"
 
 export default{
     name : "LoginFormView",
-    components : {},
+    components : {
+        AppHeader,
+        AppFooter,
+        AppUserAside
+    },
     data (){
         return {
             userVo : {}
@@ -120,18 +93,20 @@ export default{
             }).then(response => {
                 // console.log(response.data); //수신데이타
                 // 로그인 사용자 정보
-                let authUser = response.data;
-                this.$store.commit("setAuthUser",authUser);// vuex에 저장
+                if(response.data.result == "success"){
+                    let authUser = response.data.apiData;
+                    this.$store.commit("setAuthUser",authUser);// vuex에 저장
                 
-                // token은 응답문서의 헤더에 있음. "Authorization", "Bearer" + ""
-                const token = response.headers.authorization.split(" ")[1];
-                this.$store.commit("setToken", token);// vuex에 저장
-
-                // console.log(authUser);
-                // console.log(token);
-                
-                this.$router.push('/');
-
+                    // token은 응답문서의 헤더에 있음. "Authorization", "Bearer" + ""
+                    const token = response.headers.authorization.split(" ")[1];
+                    this.$store.commit("setToken", token);// vuex에 저장
+                    
+                    this.$router.push('/');
+                } else{
+                    this.userVo.id = null;
+                    this.userVo.password = null;
+                    alert(response.data.message);
+                }
             }).catch(error => {
                 console.log(error);
             });
@@ -140,7 +115,7 @@ export default{
     created (){
 
     }    
-}
+};
 </script>
 
 <style>

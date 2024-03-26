@@ -1,10 +1,13 @@
 <template>
-    <h1>테스트페이지</h1>
+    <div id="footer">
+        Copyright ⓒ 2024 유승수. All right reserved
+    </div>
+    <!-- //footer -->
 </template>
 
 <script>
 export default{
-    name : "Ex00View",
+    name : "AppFooter",
     components : {},
     data (){
         return {
@@ -17,7 +20,7 @@ export default{
     created (){
 
     }    
-};
+}
 </script>
 
 <style>
