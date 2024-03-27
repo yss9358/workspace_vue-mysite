@@ -7,6 +7,8 @@ import JoinFormView from '@/views/user/JoinFormView.vue'
 import JoinOkView from '@/views/user/JoinOkView.vue'
 import AddListView from '@/views/guestbook/AddListView.vue'
 import DeleteFormView from '@/views/guestbook/DeleteFormView.vue'
+import AttachFormView from '@/views/attach/AttachFormView.vue'
+import AttachResultView from '@/views/attach/AttachResultView.vue'
 
 const routes = [
   {
@@ -48,6 +50,16 @@ const routes = [
     path : '/gb/deleteform/:no',
     name : '/gb/deleteform/:no',
     component : DeleteFormView
+  },
+  {
+    path : '/attach/form',
+    name : '/attach/form',
+    component : AttachFormView
+  },
+  {
+    path : '/attach/result',
+    name : '/attach/result',
+    component : AttachResultView
   }
  
 ]
