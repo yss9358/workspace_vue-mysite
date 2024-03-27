@@ -33,7 +33,7 @@
                         <tr>
                             <!-- 파일업로드 이벤트잡기 - v-on:change -->
                             <td class="text-left"><input v-on:change="selectFile" type="file" name="file"></td>
-                            <td class="text-right"><button type="submit">파일업로드</button></td>
+                            <td v-if="this.$store.state.authUser != null" class="text-right"><button type="submit">파일업로드</button></td>
                         </tr>
                     </table>
                 </form>
@@ -85,6 +85,7 @@ export default{
             // 데이터 서버전송용 폼데이터를 메모리에 올린다
             let formData = new FormData();
             formData.append("file", this.file);
+            formData.append("userNo", this.$store.state.authUser.no);
             // -> data로 보낸다. (json방식이 아님.)
 
             axios({

@@ -9,6 +9,7 @@ import AddListView from '@/views/guestbook/AddListView.vue'
 import DeleteFormView from '@/views/guestbook/DeleteFormView.vue'
 import AttachFormView from '@/views/attach/AttachFormView.vue'
 import AttachResultView from '@/views/attach/AttachResultView.vue'
+import GalleryListView from '@/views/gallery/GalleryListView.vue'
 
 const routes = [
   {
@@ -42,8 +43,8 @@ const routes = [
     component : JoinOkView
   },
   {
-    path : '/gb/list',
-    name : '/gb/list',
+    path : '/guestbook',
+    name : '/guestbook',
     component : AddListView
   },
   {
@@ -60,6 +61,11 @@ const routes = [
     path : '/attach/result',
     name : '/attach/result',
     component : AttachResultView
+  },
+  {
+    path : '/gallery',
+    name : '/gallery',
+    component : GalleryListView
   }
  
 ]

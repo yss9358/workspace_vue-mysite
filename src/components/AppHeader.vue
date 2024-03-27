@@ -20,8 +20,8 @@
     <ul class="clearfix">
         <li><router-link to="/">입사지원서</router-link></li>
         <li><a href="">게시판</a></li>
-        <li><router-link to="/attach/form">갤러리</router-link></li>
-        <li><router-link to="/gb/list">방명록</router-link></li>
+        <li><router-link to="/gallery">갤러리</router-link></li>
+        <li><router-link to="/guestbook">방명록</router-link></li>
     </ul>
 </div>
 <!-- //nav -->

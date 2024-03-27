@@ -43,7 +43,7 @@
                             <td>비밀번호</td>
                             <td><input type="password" name="password" v-model="guestVo.password"></td>
                             <td class="text-left"><button type="submit">삭제</button></td>
-                            <td><router-link to="/gb/list">[방명록으로 돌아가기]</router-link></td>
+                            <td><router-link to="/guestbook">[방명록으로 돌아가기]</router-link></td>
                         </tr>
                     </table>
                 </form>
@@ -94,17 +94,14 @@ export default{
                 // console.log(response);
                 if(response.data.result == "success"){
                     this.guestVo.password = null;
-                    this.$router.push('/gb/list');
+                    this.$router.push('/guestbook');
                 } else {
                     this.guestVo.password = null;
                     alert(response.data.message);
                 }
-
             }).catch(error => {
                 console.log(error);
             });
-
-
         }
     },
     created (){

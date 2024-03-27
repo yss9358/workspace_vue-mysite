@@ -31,7 +31,7 @@
                     <br>
                     (자유롭게 꾸며보세요!!)<br>
                     <br><br>
-                    <a class="" href="">[방명록에 글 남기기]</a>
+                    <router-link to="/guestbook">[방명록에 글 남기기]</router-link>
                 </p>	
             </div>
             <!-- //greetings -->
