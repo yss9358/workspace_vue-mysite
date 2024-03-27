@@ -10,6 +10,10 @@ import DeleteFormView from '@/views/guestbook/DeleteFormView.vue'
 import AttachFormView from '@/views/attach/AttachFormView.vue'
 import AttachResultView from '@/views/attach/AttachResultView.vue'
 import GalleryListView from '@/views/gallery/GalleryListView.vue'
+import BoardListView from '@/views/board/BoardListView.vue'
+import BoardWriteFormView from '@/views/board/BoardWriteFormView.vue'
+import BoardReadView from '@/views/board/BoardReadView.vue'
+import BoardModifyFormView from '@/views/board/BoardModifyFormView.vue'
 
 const routes = [
   {
@@ -66,6 +70,26 @@ const routes = [
     path : '/gallery',
     name : '/gallery',
     component : GalleryListView
+  },
+  {
+    path : '/board',
+    name : '/board',
+    component : BoardListView
+  },
+  {
+    path : '/board/writeform',
+    name : '/board/writeform',
+    component : BoardWriteFormView
+  },
+  {
+    path : '/board/read/:no',
+    name : '/board/read/:no',
+    component : BoardReadView
+  },
+  {
+    path : '/board/modifyform',
+    name : '/board/modifyform',
+    component : BoardModifyFormView
   }
  
 ]
