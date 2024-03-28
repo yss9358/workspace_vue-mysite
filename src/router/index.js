@@ -87,8 +87,8 @@ const routes = [
     component : BoardReadView
   },
   {
-    path : '/board/modifyform',
-    name : '/board/modifyform',
+    path : '/board/modifyform/:no',
+    name : '/board/modifyform/:no',
     component : BoardModifyFormView
   }
  

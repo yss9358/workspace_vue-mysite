@@ -89,7 +89,9 @@ export default{
             axios({
                 method: 'post', // put, post, delete
                 url: 'http://localhost:9000/api/boards',
-                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                headers: { "Content-Type": "application/json; charset=utf-8",
+                           "Authorization": "Bearer " + this.$store.state.token
+                }, //전송타입
                 // params: guestbookVo, //get방식 파라미터로 값이 전달 -> modelattribute
                 data: this.boardVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
 

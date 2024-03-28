@@ -64,7 +64,7 @@
                             </span>
                         </div>
                         
-                        <router-link v-if="(this.$store.state.authUser.no) == (boardVo.userNo)" id="btn_modify" to="/board/modifyform">수정</router-link>
+                        <router-link v-if="(this.$store.state.authUser.no) == (boardVo.userNo)" id="btn_modify" v-bind:to="`/board/modifyform/${boardVo.no}`">수정</router-link>
                         <router-link id="btn_modify" to="/board">목록</router-link>
             
                     </form>
@@ -124,7 +124,6 @@ export default{
 
         }// 한명데이터 가져오기 끝
     }, 
-
 
     created (){
         this.getBoardOne();

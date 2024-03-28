@@ -124,7 +124,6 @@ export default{
                     this.guestVo.password = null;
                     this.guestVo.content = null;
                     alert(response.data.message);
-                    this.$router.push('/guestbook');
                 }
             }).catch(error => {
                 console.log(error);

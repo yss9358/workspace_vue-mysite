@@ -52,7 +52,7 @@
                         <tbody>
                             <tr v-for="(list,i) in boardList" v-bind:key="i" >
                                 <td>{{ list.no }}</td>
-                                <td class="text-left"><router-link v-bind:to="`/board/read/${list.no}`">{{ list.title }}</router-link></td>
+                                <td class="text-left"><router-link v-bind:to="`/board/read/${list.no}`" >{{ list.title }}</router-link></td>
                                 <td>{{ list.name }}</td>
                                 <td>{{ list.hit }}</td>
                                 <td>{{ list.regDate }}</td>
@@ -134,7 +134,9 @@ export default{
             axios({
                 method: 'delete', // put, post, delete
                 url: 'http://localhost:9000/api/boards',
-                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                headers: { "Content-Type": "application/json; charset=utf-8",
+                           "Authorization": "Bearer " + this.$store.state.token 
+                }, //전송타입
                 // params: guestbookVo, //get방식 파라미터로 값이 전달 -> modelattribute
                 data: event.target.dataset.no, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
 
@@ -149,6 +151,7 @@ export default{
                 console.log(error);
             });
         } // 삭제버튼 클릭했을때 끝
+        
     },
     created (){
         this.getBoardList();
