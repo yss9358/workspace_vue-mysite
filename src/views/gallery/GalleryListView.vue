@@ -30,7 +30,7 @@
                         <!-- 이미지반복영역 -->
                             <li v-bind:key="i" v-for="(img, i) in imgList">
                                 <div class="view" >
-                                    <img class="imgItem" v-bind:src="`http://localhost:9000/image/${img.saveName}`" v-on:click="showImage" v-bind:data-imgno="i">
+                                    <img class="imgItem" v-bind:src="`http://localhost:9000/image/${img.saveName}`" v-on:click="showImage" v-bind:data-imgno="`${img.no}`">
                                     <div class="imgWriter">작성자: <strong>{{ img.name }}</strong></div>
                                     <input type="hidden" name="userNo" v-model="img.userNo">
                                 </div>
@@ -64,7 +64,28 @@
                     </form>
                 </div>
             </div>
-            <!-- //이미지 등록 팝업(모달) -->
+            <!-- //이미지 등록 팝업(모달) 끝 -->
+
+            <!-- 이미지 보기 팝업(모달) -->
+            <div id="viewModal" class="modal">
+                <div class="modal-content">
+                    <div class="closeBtn" v-on:click="closeBtn2">×</div>
+                    <div class="m-header">이미지 보기</div>
+                    <div class="m-body">
+                        <div>
+                            <img id="viewModelImg" v-bind:src="`http://localhost:9000/image/${imgVo.saveName}`">
+                            <!-- ajax로 처리 : 이미지출력 위치-->
+                        </div>
+                        <div>
+                            <p id="viewModelContent">{{ imgVo.content }}</p>
+                        </div>
+                    </div>
+                    <div class="m-footer">
+                        <button type="button" v-on:click="deleteImage" v-if="(this.$store.state.authUser.no) == imgVo.userNo" >삭제</button>
+                    </div>
+                </div>
+            </div>
+            <!-- //이미지 보기 팝업(모달) 끝 -->
         </div>
         <!-- //content  -->
     </div>
@@ -93,6 +114,7 @@ export default{
     data (){
         return {
             imgList : [],
+            imgVo : {},
             content : "",
             file : ""
         };
@@ -121,8 +143,50 @@ export default{
 
         // 이미지 보기
         showImage(event){
-            console.log(event.target.dataset.imgno);
+            let viewModal = document.querySelector("#viewModal");
+            viewModal.style.display = "block";
+            axios({
+                method: 'get', // put, post, delete
+                url: 'http://localhost:9000/api/galleries/'+ event.target.dataset.imgno,
+                headers: { "Content-Type": "application/json; charset=utf-8"}, //전송타입
+                // params: guestbookVo, //get방식 파라미터로 값이 전달 -> modelattribute
+                // data: event.target.dataset.imgno, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
+
+                responseType: 'json' //수신타입
+            }).then(response => {
+                if(response.data.result == "success"){
+                    this.imgVo = response.data.apiData;
+                } else {
+                    alert(response.data.message);
+                }
+                console.log(this.imgVo);
+            }).catch(error => {
+                console.log(error);
+            });
+
         }, // 이미지 보기 끝
+
+        // 이미지 삭제
+        deleteImage(no){
+            console.log("deleteImage");
+            no = this.imgVo.no;
+            axios({
+                method: 'delete', // put, post, delete
+                url: 'http://localhost:9000/api/galleries',
+                headers: { "Content-Type": "application/json; charset=utf-8",
+                           "Authorization": "Bearer " + this.$store.state.token
+                }, //전송타입
+                // params: imgNo, //get방식 파라미터로 값이 전달 -> modelattribute
+                data: {no}, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
+
+                responseType: 'json' //수신타입
+            }).then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            });
+
+        }, // 이미지 삭제 끝
 
         // 이미지 올리기 버튼 선택했을때 
         imgUpload (){
@@ -130,12 +194,18 @@ export default{
             addModal.style.display = "block";
         }, // 이미지 올리기 버튼 선택했을때 끝
         
-        // 닫기 버튼 눌렀을때
+        // 이미지 올리기 닫기 버튼 눌렀을때
         closeBtn(){
             let addModal = document.querySelector("#addModal");
             addModal.style.display = "none";
         },
-        // 닫기 버튼 눌렀을때 끝
+        // 이미지 올리기 닫기 버튼 눌렀을때 끝
+
+        // 이미지 보기 닫기 버튼 눌렀을때 
+        closeBtn2(){
+            let viewModal = document.querySelector("#viewModal");
+            viewModal.style.display = "none";
+        }, // 이미지 보기 닫기 버튼 눌렀을때 끝 
 
         // 파일 선택했을때 
         selectFile(event) {
