@@ -6,13 +6,7 @@
     <!-- AppHeader -->
 
     <div id="container" class="clearfix">
-        <div id="aside">
-            <h2>게시판</h2>
-            <ul>
-                <li><router-link to="/board">일반게시판</router-link></li>
-                <li><a href="">댓글게시판</a></li>
-            </ul>
-        </div>
+        <AppBoardAside />
         <!-- //aside -->
 
         <div id="content">
@@ -34,7 +28,7 @@
                 <div id="list">
                     <form action="" method="">
                         <div class="form-group text-right">
-                            <input type="text">
+                            <input type="text" v-model="keyword">
                             <button type="submit" id=btn_search>검색</button>
                         </div>
                     </form>
@@ -52,7 +46,7 @@
                         <tbody>
                             <tr v-for="(list,i) in boardList" v-bind:key="i" >
                                 <td>{{ list.no }}</td>
-                                <td class="text-left"><router-link v-bind:to="`/board/read/${list.no}`" >{{ list.title }}</router-link></td>
+                                <td class="text-left"><router-link v-bind:to="`/board/read/${list.no}`">{{ list.title }}</router-link></td>
                                 <td>{{ list.name }}</td>
                                 <td>{{ list.hit }}</td>
                                 <td>{{ list.regDate }}</td>
@@ -68,7 +62,7 @@
                     </div>
                     <div class="clear"></div>
                     <div>
-                        <button id="btn_moreBoard" type="button">글 가져오기</button>
+                        <button id="btn_moreBoard" type="button" v-on:click="moreList" v-bind:data-crtpage="listVo.crtPage">글 가져오기</button>
                     </div>   
                 </div>
                 <!-- //list -->
@@ -89,17 +83,23 @@
 import '@/assets/css/board.css'
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import AppBoardAside from '@/components/AppBoardAside.vue'
 import axios from 'axios';
 
 export default{
     name : "BoardListView",
     components : {
         AppHeader,
-        AppFooter
+        AppFooter,
+        AppBoardAside
     },
     data (){
         return {
-            boardList : []
+            boardList : [],
+            listVo : {
+                keyword : "",
+                crtPage : 1
+            }
         };
     },
     methods : {
@@ -150,8 +150,35 @@ export default{
             }).catch(error => {
                 console.log(error);
             });
-        } // 삭제버튼 클릭했을때 끝
+        }, // 삭제버튼 클릭했을때 끝
         
+        // 게시글 더 가져오기
+        moreList(){
+            let no = this.boardList[this.boardList.length-1].no;
+            // console.log(this.crtPage);
+            // console.log(no);
+            this.listVo.crtPage += 1;
+            console.log(this.listVo.crtPage);
+            axios({
+                method: 'post', // put, post, delete
+                url: 'http://localhost:9000/api/boards/morelist',
+                headers: { "Content-Type": "application/json; charset=utf-8"
+                }, //전송타입
+                // params: no, //get방식 파라미터로 값이 전달 -> modelattribute
+                data: no, //put, post, delete 방식 자동으로 JSON으로 변환 전달 -> requestbody
+
+                responseType: 'json' //수신타입
+            }).then(response => {
+                if(response.data.result == "success"){
+                    this.boardList.push(...response.data.apiData);
+                } else {
+                    alert(response.data.message);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        } // 게시글 더 가져오기 끝
+    
     },
     created (){
         this.getBoardList();

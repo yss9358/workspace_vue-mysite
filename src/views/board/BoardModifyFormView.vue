@@ -6,13 +6,7 @@
     <!-- AppHeader -->
 
     <div id="container" class="clearfix">
-        <div id="aside">
-            <h2>게시판</h2>
-            <ul>
-                <li><a href="">일반게시판</a></li>
-                <li><a href="">댓글게시판</a></li>
-            </ul>
-        </div>
+        <AppBoardAside />
         <!-- //aside -->
 
         <div id="content">
@@ -64,9 +58,8 @@
                             </textarea>
                         </div>
                         
-                        <a id="btn_cancel" href="">취소</a>
-                        <button v-if="(this.$store.state.authUser.no) == boardVo.userNo" id="btn_modify" type="submit">수정</button>
-                        
+                        <router-link v-bind:to="`/board/read/${boardVo.no}`" id="btn_cancel">취소</router-link>
+                        <button v-if="(this.$store.state.authUser.no) == boardVo.userNo" id="btn_modify" type="submit">수정</button> 
                     </form>
                     <!-- //form -->
                 </div>
@@ -88,13 +81,15 @@
 import '@/assets/css/board.css'
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import AppBoardAside from '@/components/AppBoardAside.vue'
 import axios from 'axios';
 
 export default{
     name : "BoardModifyFormView",
     components : {
         AppHeader,
-        AppFooter
+        AppFooter,
+        AppBoardAside
     },
     data (){
         return {
@@ -127,7 +122,6 @@ export default{
 
         // 수정
         modifyBoard(){
-            console.log(this.boardVo);
             axios({
                 method: 'put', // put, post, delete
                 url: 'http://localhost:9000/api/boards/modify',
@@ -139,7 +133,11 @@ export default{
 
                 responseType: 'json' //수신타입
             }).then(response => {
-                console.log(response.data);
+                if(response.data.result == "success"){
+                    this.$router.push('/board');
+                } else {
+                    alert(response.data.message);
+                }
             }).catch(error => {
                 console.log(error);
             });

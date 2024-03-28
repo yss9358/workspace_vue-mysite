@@ -6,13 +6,7 @@
     <!-- //header -->
 
     <div id="container" class="clearfix">
-        <div id="aside">
-            <h2>게시판</h2>
-            <ul>
-                <li><a href="">일반게시판</a></li>
-                <li><a href="">댓글게시판</a></li>
-            </ul>
-        </div>
+        <AppBoardAside />
         <!-- //aside -->
 
         <div id="content">
@@ -88,13 +82,15 @@
 import '@/assets/css/board.css'
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
+import AppBoardAside from '@/components/AppBoardAside.vue'
 import axios from 'axios';
 
 export default{
     name : "BoardReadView",
     components : {
         AppHeader,
-        AppFooter
+        AppFooter,
+        AppBoardAside
     },
     data (){
         return {
