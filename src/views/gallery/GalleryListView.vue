@@ -30,7 +30,7 @@
                         <!-- 이미지반복영역 -->
                             <li v-bind:key="i" v-for="(img, i) in imgList">
                                 <div class="view" >
-                                    <img class="imgItem" v-bind:src="`http://localhost:9000/image/${img.saveName}`">
+                                    <img class="imgItem" v-bind:src="`http://localhost:9000/image/${img.saveName}`" v-on:click="showImage" v-bind:data-imgno="i">
                                     <div class="imgWriter">작성자: <strong>{{ img.name }}</strong></div>
                                     <input type="hidden" name="userNo" v-model="img.userNo">
                                 </div>
@@ -72,6 +72,7 @@ export default{
         };
     },
     methods : {
+        // 리스트 가져오기
         getAttachList(){
             axios({
                 method: 'get', // put, post, delete
@@ -90,6 +91,9 @@ export default{
             }).catch(error => {
                 console.log(error);
             });
+        }, // 리스트 가져오기 끝
+        showImage(event){
+            console.log(event.target.dataset.imgno);
         }
     },
     created (){
