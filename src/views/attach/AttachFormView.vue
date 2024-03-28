@@ -85,7 +85,6 @@ export default{
             // 데이터 서버전송용 폼데이터를 메모리에 올린다
             let formData = new FormData();
             formData.append("file", this.file);
-            formData.append("userNo", this.$store.state.authUser.no);
             // -> data로 보낸다. (json방식이 아님.)
 
             axios({
