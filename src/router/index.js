@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Ex00View from '../views/Ex00View.vue'
-import MainView from '@/views/main/MainView.vue' // @는 src폴더 의미
+import MainView from '@/views/main/MainView.vue'
 import LoginFormView from '@/views/user/LoginFormView.vue'
 import ModifyFormView from '@/views/user/ModifyFormView.vue'
 import JoinFormView from '@/views/user/JoinFormView.vue'
@@ -16,11 +15,6 @@ import BoardReadView from '@/views/board/BoardReadView.vue'
 import BoardModifyFormView from '@/views/board/BoardModifyFormView.vue'
 
 const routes = [
-  {
-    path : '/0',
-    name : 'ex00',
-    component : Ex00View
-  },
   {
     path : '/',
     name : '/',
@@ -91,7 +85,6 @@ const routes = [
     name : '/board/modifyform/:no',
     component : BoardModifyFormView
   }
- 
 ]
 
 const router = createRouter({

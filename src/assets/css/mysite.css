@@ -16,7 +16,7 @@ a:visited {text-decoration: none; color: #000000; }
 a:active {text-decoration: none; color: #000000; }
 a:hover {text-decoration: none; color: #000000; }
 
-/* 레이아웃 */
+/* 레이아웃 */ 
 #wrap {margin: 0px auto; width: 1000px; background-color: #FFFFFF; }
 #header {width: 1000px; padding: 5px 0px 10px 0px; background-color: #FFFFFF; border-bottom: 1px solid #A6A6A6; }
 #nav {width: 1000px; background-color: #FFFFFF; border-bottom: 1px solid #A6A6A6; }
